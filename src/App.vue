@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { NButton } from 'naive-ui'
+import { NButton, NDialogProvider } from 'naive-ui'
+import ProviderWebSocket from './components/ProviderWebSocket.vue';
 
 function login() {
   
@@ -7,13 +8,19 @@ function login() {
 
 // const ws = new WebSocket('ws://localhost:3000');
 
-// ws.addEventListener('test', (data) => {
-//   console.log(data);
-// });
-
 // ws.onopen = () => {
 //   setTimeout(() => {
-//     ws.send('99999999999');
+//     console.log('456');
+//     const testData = {
+//       event: 'test',
+//       data: {
+//         test: [
+//         '我是客戶端丟的資料',
+//         '123'
+//         ]
+//       }
+//     }
+//     ws.send(JSON.stringify(testData));
 //   }, 2000)
 //   console.log('open connection');
 // }
@@ -36,6 +43,10 @@ function login() {
 </script>
 
 <template>
-  <router-view/>
+  <ProviderWebSocket>
+    <n-dialog-provider>
+      <router-view/>
+    </n-dialog-provider>
+  </ProviderWebSocket>
 </template>
 
