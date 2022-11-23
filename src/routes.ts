@@ -11,7 +11,7 @@ export const routes = [
   },
   {
     name: 'channel',
-    path: `/channel`,
+    path: '/channel/:channelId',
     component: Channel,
   },
 ]
