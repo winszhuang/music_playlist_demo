@@ -14,3 +14,9 @@ export interface DjJoinChannelDto {
   password: string;
   channelId: string;
 }
+
+export interface GuestJoinChannelDto {
+  name: string;
+  channelPassword: string;
+  channelId: string;
+}
