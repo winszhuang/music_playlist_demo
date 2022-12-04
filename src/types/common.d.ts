@@ -1,6 +1,6 @@
 interface MusicData {
   title: string
-  channelTitle: string
+  author: string
   id: string,
   image: string,
   publishedAt: string,
