@@ -12,6 +12,7 @@ interface PlayItem {
 type WsEvent = 
   | 'join-channel'
   | 'add-music'
+  | 'insert-music'
   | 'update-playlist'
 
 interface JoinChannelEventData {

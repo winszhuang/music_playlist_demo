@@ -21,6 +21,7 @@ import SearchMusicDialog from '../components/SearchMusicDialog.vue';
 const wsWrapper = useWs();
 const route = useRoute();
 const isShowAddMusicDialog = ref(false)
+const isShowInsertMusicDialog = ref(false)
 
 setTimeout(() => {
   const token = localStorage.getItem('token') || '';
@@ -106,7 +107,8 @@ function addMusic(musicId: string) {
   wsWrapper.send('add-music', { musicId })
 }
 
-function insertMusic() {
+function insertMusic(musicId: string) {
+  wsWrapper.send('insert-music', { musicId })
   console.log('insertMusic');
 }
 
@@ -137,7 +139,7 @@ function showHistory() {
           <n-button @click="(isShowAddMusicDialog = true)" class="w-full py-8">
             增加音樂
           </n-button>
-          <n-button @click="insertMusic" class="w-full py-8">
+          <n-button @click="(isShowInsertMusicDialog = true)" class="w-full py-8">
             插播音樂申請
           </n-button>
           <n-button @click="showHistory" class="w-full py-8">
@@ -150,5 +152,9 @@ function showHistory() {
   <SearchMusicDialog 
     title="Add Music" v-model:isShow="isShowAddMusicDialog"
     @addMusic="addMusic"
+  />
+  <SearchMusicDialog 
+    title="Insert Music" v-model:isShow="isShowInsertMusicDialog"
+    @addMusic="insertMusic"
   />
 </template>

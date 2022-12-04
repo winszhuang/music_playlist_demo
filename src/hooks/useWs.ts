@@ -11,6 +11,7 @@ export function useWs(url = 'ws://localhost:3000') {
 
   function send(eventName: 'join-channel', data: JoinChannelEventData): void;
   function send(eventName: 'add-music', data: AddMusicEventData): void;
+  function send(eventName: 'insert-music', data: AddMusicEventData): void;
   function send(eventName: WsEvent, data: EventData) {
     ws.send(JSON.stringify({
       event: eventName,
