@@ -27,6 +27,6 @@ export async function djJoinChannel(postData: DjJoinChannelDto): Promise<AxiosRe
   return api.post('/channels/join-dj', postData);
 }
 
-export async function searchMusic(queryString: string): Promise<AxiosResponse<Token>> {
-  return api.post(`/music/search?q=${queryString}`);
+export async function searchMusic(queryString: string): Promise<AxiosResponse<SearchMusicListOutput>> {
+  return api.get(`/music/search?q=${queryString}`);
 }

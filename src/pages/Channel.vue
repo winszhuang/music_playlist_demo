@@ -8,16 +8,19 @@ import {
   NLayout,
   NLayoutContent,
   NLayoutHeader,
-  NLayoutSider
+  NLayoutSider,
+  NDialog
 } from 'naive-ui'
 import { wsKey } from '../const';
 import { useRoute } from 'vue-router';
-import { inject, onMounted } from 'vue';
+import { inject, onMounted, ref } from 'vue';
 import { useWs } from '../hooks/useWs';
 import MusicCard from '../components/MusicCard.vue';
+import SearchMusicDialog from '../components/SearchMusicDialog.vue';
 
 const wsWrapper = useWs();
 const route = useRoute();
+const isShowAddMusicDialog = ref(false)
 
 setTimeout(() => {
   const token = localStorage.getItem('token') || '';
@@ -39,70 +42,68 @@ const musicList = [
   },
   {
     name: 'love',
-    author: 'tina',
+    author: 'cena',
     time: '0321'
   },
   {
     name: 'love',
-    author: 'tina',
+    author: 'cena',
     time: '0321'
   },
   {
     name: 'love',
-    author: 'tina',
+    author: 'cena',
     time: '0321'
   },
   {
     name: 'love',
-    author: 'tina',
+    author: 'cena',
     time: '0321'
   },
   {
     name: 'love',
-    author: 'tina',
+    author: 'cena',
     time: '0321'
   },
   {
     name: 'love',
-    author: 'tina',
+    author: 'cena',
     time: '0321'
   },
   {
     name: 'love',
-    author: 'tina',
+    author: 'cena',
     time: '0321'
   },
   {
     name: 'love',
-    author: 'tina',
+    author: 'cena',
     time: '0321'
   },
   {
     name: 'love',
-    author: 'tina',
+    author: 'cena',
     time: '0321'
   },
   {
     name: 'love',
-    author: 'tina',
+    author: 'cena',
     time: '0321'
   },
   {
     name: 'love',
-    author: 'tina',
+    author: 'cena',
     time: '0321'
   },
   {
     name: 'love',
-    author: 'tina',
+    author: 'cena',
     time: '0321'
   },
 ]
 
-function addMusic() {
-  wsWrapper.send('add-music', {
-    musicId: 'IAuRoAUV19o'
-  })
+function addMusic(musicId: string) {
+  wsWrapper.send('add-music', { musicId })
 }
 
 function insertMusic() {
@@ -133,7 +134,7 @@ function showHistory() {
           <n-card>
             頻道名稱
           </n-card>
-          <n-button @click="addMusic" class="w-full py-8">
+          <n-button @click="(isShowAddMusicDialog = true)" class="w-full py-8">
             增加音樂
           </n-button>
           <n-button @click="insertMusic" class="w-full py-8">
@@ -146,4 +147,8 @@ function showHistory() {
       </div>
     </div>
   </div>
+  <SearchMusicDialog 
+    title="Add Music" v-model:isShow="isShowAddMusicDialog"
+    @addMusic="addMusic"
+  />
 </template>

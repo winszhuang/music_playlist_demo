@@ -20,3 +20,5 @@ interface GuestJoinChannelDto {
   channelPassword: string;
   channelId: string;
 }
+
+type SearchMusicListOutput = MusicData[]
