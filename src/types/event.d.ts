@@ -3,10 +3,16 @@ type UseWs = () => {
   send: (eventName: 'add-music', data: AddMusicEventData) => void;
 }
 
+interface PlayItem {
+  name: string
+  author: string
+  time: string
+}
+
 type WsEvent = 
   | 'join-channel'
   | 'add-music'
-  | 'test'
+  | 'update-playlist'
 
 interface JoinChannelEventData {
   token: string
@@ -16,9 +22,12 @@ interface AddMusicEventData {
   musicId: string
 }
 
+type UpdatePlayListEventData = PlayItem[]
+
 type EventData = 
   | JoinChannelEventData
   | AddMusicEventData
+  | UpdatePlayListEventData
 
 interface WsEventData<T> {
   event: WsEvent,

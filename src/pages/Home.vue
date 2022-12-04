@@ -5,12 +5,22 @@ import {
   NTabPane,
   NTabs,
   NCard,
+  NButton
 } from 'naive-ui'
 import { useChannelStore } from '../store/channel.store';
+import { useWs } from '../hooks/useWs';
 
+const wsWrapper = useWs();
 const channelStore = useChannelStore()
 
 channelStore.fetchChannelList()
+
+function testForAddMusicWithoutToken() {
+  console.log('123');
+  wsWrapper.send('add-music', {
+    musicId: 'IAuRoAUV19o'
+  })
+}
 </script>
 
 <template>
@@ -33,4 +43,7 @@ channelStore.fetchChannelList()
       </n-tab-pane>
     </n-tabs>
   </n-card>
+  <n-button @click="testForAddMusicWithoutToken">
+    測試
+  </n-button>
 </template>
