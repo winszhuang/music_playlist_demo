@@ -41,13 +41,15 @@ const musicList = [
 
 <template>
   <div>
-    <n-list>
-      <n-list-item v-for="music in musicList">
-        <n-card :title="music.name">
-          卡片内容
-        </n-card>
-      </n-list-item>
-    </n-list>
+    <n-space vertical size="large">
+      <n-list>
+        <n-list-item v-for="music in musicList">
+          <n-card :title="music.name">
+            卡片内容
+          </n-card>
+        </n-list-item>
+      </n-list>
+    </n-space>
     <!-- <n-space vertical>
       <n-card title="小卡片" size="small">
         卡片内容

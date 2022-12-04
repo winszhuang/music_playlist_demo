@@ -1,21 +1,21 @@
-export interface ChannelInfoData {
+interface ChannelInfoData {
   _id: string;
   name: string;
   thumbnail: string;
   isLock: boolean;
 }
 
-export interface Token {
+interface Token {
   token: string;
 }
 
-export interface DjJoinChannelDto {
+interface DjJoinChannelDto {
   email: string;
   password: string;
   channelId: string;
 }
 
-export interface GuestJoinChannelDto {
+interface GuestJoinChannelDto {
   name: string;
   channelPassword: string;
   channelId: string;

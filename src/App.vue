@@ -1,13 +1,12 @@
 <script setup lang="ts">
-import { 
-  NButton, 
-  NDialogProvider, 
+import {
+  NButton,
+  NDialogProvider,
   NConfigProvider,
   NMessageProvider,
   darkTheme
 } from 'naive-ui'
-import ProviderWebSocket from './components/ProviderWebSocket.vue';
-
+import ProviderWebSocket from './components/ProviderWebSocket.vue'
 
 </script>
 
@@ -22,4 +21,3 @@ import ProviderWebSocket from './components/ProviderWebSocket.vue';
     </n-message-provider>
   </ProviderWebSocket>
 </template>
-
