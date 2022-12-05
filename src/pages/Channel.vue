@@ -13,15 +13,29 @@ import {
 } from 'naive-ui'
 import { wsKey } from '../const';
 import { useRoute } from 'vue-router';
-import { inject, onMounted, ref } from 'vue';
+import { computed, inject, onMounted, ref } from 'vue';
 import { useWs } from '../hooks/useWs';
 import MusicCard from '../components/MusicCard.vue';
 import SearchMusicDialog from '../components/SearchMusicDialog.vue';
+import { useUserStore } from '../store/user.store';
+import { storeToRefs } from 'pinia';
 
+const userStore = useUserStore()
+const { userInfo } = storeToRefs(userStore)
 const wsWrapper = useWs();
 const route = useRoute();
 const isShowAddMusicDialog = ref(false)
 const isShowInsertMusicDialog = ref(false)
+const roleName = computed(() => {
+  if (!userInfo.value) return ''
+  if (userInfo.value.roleId === 0) return '系統管理員'
+  if (userInfo.value.roleId === 1) return 'DJ'
+  if (userInfo.value.roleId === 2) return '一般使用者'
+  if (userInfo.value.roleId === 3) return '訪客'
+  return ''
+})
+
+userStore.fetchUserInfo()
 
 setTimeout(() => {
   const token = localStorage.getItem('token') || '';
@@ -53,8 +67,16 @@ function showHistory() {
 
 <template>
   <div class=" h-screen flex flex-col">
-    <n-layout-header class="p-4">
-      header
+    <n-layout-header class="px-8 py-4 flex">
+      ------
+      <div class="ml-auto">
+        <div class=" text-sm">
+          {{ roleName }}
+        </div>
+        <div class=" text-lg font-bold">
+          {{ userInfo?.name }}
+        </div>
+      </div>
     </n-layout-header>
     <div class="p-8 flex flex-1">
       <div class=" w-3/5 pr-8 h-full">

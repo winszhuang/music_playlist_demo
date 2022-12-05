@@ -22,3 +22,12 @@ interface GuestJoinChannelDto {
 }
 
 type SearchMusicListOutput = MusicData[]
+
+interface UserInfo {
+  _id: string,
+  name: string,
+  email: string,
+  gender: number,
+  __v: number,
+  roleId: number
+}
