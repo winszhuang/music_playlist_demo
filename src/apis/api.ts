@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from 'axios'
+import { fakeMusicList } from '../const'
 
 export const api = axios.create({
   timeout: 60000,
@@ -27,6 +28,15 @@ export async function djJoinChannel(postData: DjJoinChannelDto): Promise<AxiosRe
   return api.post('/channels/join-dj', postData);
 }
 
-export async function searchMusic(queryString: string): Promise<AxiosResponse<SearchMusicListOutput>> {
-  return api.get(`/music/search?q=${queryString}`);
+// export async function searchMusic(queryString: string): Promise<AxiosResponse<SearchMusicListOutput>> {
+//   // youtube search api用一次扣100點，很貴
+//   return api.get(`/music/search?q=${queryString}`);
+// }
+
+export async function searchMusic(queryString: string) {
+  return new Promise((resolve, reject) => {
+    resolve({
+      data: fakeMusicList
+    })
+  })
 }

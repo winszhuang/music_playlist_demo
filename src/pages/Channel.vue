@@ -33,7 +33,7 @@ setTimeout(() => {
 const musicList = ref<MusicData[]>([])
 
 wsWrapper.on('update-playlist', (data: UpdatePlayListEventData) => {
-  console.log(data);
+  musicList.value = data
 })
 
 function addMusic(musicId: string) {

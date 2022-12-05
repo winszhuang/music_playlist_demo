@@ -18,7 +18,8 @@ const musicList = ref<MusicData[]>([])
 const musicNameList = computed(() => musicList.value.map((item) => item.name))
 const debounceFn = useDebounceFn(async (text: string) => {
   musicList.value = (await searchMusic(text)).data
-})
+  console.log(musicList.value);
+}, 2000)
 
 watch(inputValue, debounceFn)
 
