@@ -21,7 +21,7 @@ export async function getChannelList(): Promise<AxiosResponse<ChannelInfoData[]>
 }
 
 export async function guestJoinChannel(postData: GuestJoinChannelDto): Promise<AxiosResponse<Token>> {
-  return api.post('/channels/join-dj', postData);
+  return api.post('/channels/join', postData);
 }
 
 export async function djJoinChannel(postData: DjJoinChannelDto): Promise<AxiosResponse<Token>> {
@@ -39,4 +39,8 @@ export async function searchMusic(queryString: string) {
       data: fakeMusicList
     })
   })
+}
+
+export async function getMe() {
+  return api.get('/users/me')
 }
