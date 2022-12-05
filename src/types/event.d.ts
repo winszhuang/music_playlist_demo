@@ -6,8 +6,10 @@ type UseWs = () => {
 type WsEvent = 
   | 'join-channel'
   | 'add-music'
+  | 'apply-to-insert-music'
   | 'insert-music'
   | 'update-playlist'
+  | 'update-audited-list'
 
 interface JoinChannelEventData {
   token: string
@@ -23,6 +25,7 @@ type EventData =
   | JoinChannelEventData
   | AddMusicEventData
   | UpdatePlayListEventData
+  | AuditedMusicData[]
 
 interface WsEventData<T> {
   event: WsEvent,

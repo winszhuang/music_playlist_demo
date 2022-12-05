@@ -26,6 +26,7 @@ const wsWrapper = useWs();
 const route = useRoute();
 const isShowAddMusicDialog = ref(false)
 const isShowInsertMusicDialog = ref(false)
+const auditedList = ref<AuditedMusicData[]>([])
 const roleName = computed(() => {
   if (!userInfo.value) return ''
   if (userInfo.value.roleId === 0) return '系統管理員'
@@ -46,17 +47,24 @@ setTimeout(() => {
 
 const musicList = ref<MusicData[]>([])
 
-wsWrapper.on('update-playlist', (data: UpdatePlayListEventData) => {
+wsWrapper.on('update-playlist', (data) => {
+  console.log('update-playlist');
   musicList.value = data
+})
+
+// only for dj
+wsWrapper.on('update-audited-list', (data) => {
+  console.log('update-audited-list');
+  console.log(data);
+  auditedList.value = data
 })
 
 function addMusic(musicId: string) {
   wsWrapper.send('add-music', { musicId })
 }
 
-function insertMusic(musicId: string) {
-  wsWrapper.send('insert-music', { musicId })
-  console.log('insertMusic');
+function applyToInsertMusic(musicId: string) {
+  wsWrapper.send('apply-to-insert-music', { musicId })
 }
 
 function showHistory() {
@@ -94,7 +102,12 @@ function showHistory() {
           <n-button @click="(isShowAddMusicDialog = true)" class="w-full py-8">
             增加音樂
           </n-button>
-          <n-button @click="(isShowInsertMusicDialog = true)" class="w-full py-8">
+          <n-button @click="(isShowInsertMusicDialog = true)" class="w-full py-8 relative">
+            <div 
+              v-if="auditedList?.length"
+              class=" absolute -top-1 -left-1 bg-red-700 w-6 h-6 rounded-full flex items-center justify-center">
+              {{ auditedList?.length }}
+            </div>
             插播音樂申請
           </n-button>
           <n-button @click="showHistory" class="w-full py-8">
@@ -110,6 +123,6 @@ function showHistory() {
   />
   <SearchMusicDialog 
     title="Insert Music" v-model:isShow="isShowInsertMusicDialog"
-    @addMusic="insertMusic"
+    @addMusic="applyToInsertMusic"
   />
 </template>
