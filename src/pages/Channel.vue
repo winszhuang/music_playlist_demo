@@ -30,78 +30,11 @@ setTimeout(() => {
   })
 }, 1000);
 
-const musicList = [
-  {
-    name: 'glow',
-    author: 'test',
-    time: '0423',
-  },
-  {
-    name: 'beautiful',
-    author: 'john',
-    time: '0532'
-  },
-  {
-    name: 'love',
-    author: 'cena',
-    time: '0321'
-  },
-  {
-    name: 'love',
-    author: 'cena',
-    time: '0321'
-  },
-  {
-    name: 'love',
-    author: 'cena',
-    time: '0321'
-  },
-  {
-    name: 'love',
-    author: 'cena',
-    time: '0321'
-  },
-  {
-    name: 'love',
-    author: 'cena',
-    time: '0321'
-  },
-  {
-    name: 'love',
-    author: 'cena',
-    time: '0321'
-  },
-  {
-    name: 'love',
-    author: 'cena',
-    time: '0321'
-  },
-  {
-    name: 'love',
-    author: 'cena',
-    time: '0321'
-  },
-  {
-    name: 'love',
-    author: 'cena',
-    time: '0321'
-  },
-  {
-    name: 'love',
-    author: 'cena',
-    time: '0321'
-  },
-  {
-    name: 'love',
-    author: 'cena',
-    time: '0321'
-  },
-  {
-    name: 'love',
-    author: 'cena',
-    time: '0321'
-  },
-]
+const musicList = ref<MusicData[]>([])
+
+wsWrapper.on('update-playlist', (data: UpdatePlayListEventData) => {
+  console.log(data);
+})
 
 function addMusic(musicId: string) {
   wsWrapper.send('add-music', { musicId })

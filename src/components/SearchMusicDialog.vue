@@ -15,7 +15,7 @@ const isShow = useVModel(props, 'isShow', emit)
 const inputValue = ref('')
 const canSubmit = ref(true)
 const musicList = ref<MusicData[]>([])
-const musicNameList = computed(() => musicList.value.map((item) => item.title))
+const musicNameList = computed(() => musicList.value.map((item) => item.name))
 const debounceFn = useDebounceFn(async (text: string) => {
   musicList.value = (await searchMusic(text)).data
 })
@@ -23,8 +23,8 @@ const debounceFn = useDebounceFn(async (text: string) => {
 watch(inputValue, debounceFn)
 
 function submit() {
-  const currentMusic = musicList.value.find(item => item.title === inputValue.value)
-  emit('addMusic', currentMusic?.id)
+  const currentMusic = musicList.value.find(item => item.name === inputValue.value)
+  emit('addMusic', currentMusic?.musicId)
   isShow.value = false
 }
 

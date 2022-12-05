@@ -19,14 +19,16 @@ export function useWs(url = 'ws://localhost:3000') {
     }))
   }
 
-  function on(eventName: 'update-playlist', data: UpdatePlayListEventData): void;
-  function on(eventName: WsEvent, data: EventData) {
+  function on(eventName: 'update-playlist', callback: (data: UpdatePlayListEventData) => void): any;
+  function on(eventName: WsEvent, callback: (data: EventData) => void): any {
     ws.onmessage = (event) => {
-      try {
-        const data = JSON.parse(event as unknown as string)
-        console.log(data);
-      } catch (error) {
-        console.log((error as Error).message);
+      const source = event.data;
+      console.log(event);
+      const sourceJson = JSON.parse(source);
+      
+      if (sourceJson.event === 'update-playlist') {
+        console.log(sourceJson);
+        callback(sourceJson.data)
       }
     }
   }
