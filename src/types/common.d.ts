@@ -4,13 +4,14 @@ interface MusicData {
   author: string;
   thumbnail: string;
   duration: string;
+  _id: string;
 }
 
 interface AuditedMusicData {
   name: string,
   author: string,
   createdAt: string,
-  serialId: string,
+  _id: string,
   thumbnail: string,
   duration: string,
 }

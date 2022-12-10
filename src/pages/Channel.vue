@@ -11,12 +11,12 @@ import {
   NLayoutSider,
   NDialog
 } from 'naive-ui'
-import { wsKey } from '../const';
 import { useRoute } from 'vue-router';
 import { computed, inject, onMounted, ref } from 'vue';
 import { useWs } from '../hooks/useWs';
 import MusicCard from '../components/MusicCard.vue';
 import SearchMusicDialog from '../components/SearchMusicDialog.vue';
+import AuditMusicDialog from '../components/AuditMusicDialog.vue';
 import { useUserStore } from '../store/user.store';
 import { storeToRefs } from 'pinia';
 
@@ -26,11 +26,12 @@ const wsWrapper = useWs();
 const route = useRoute();
 const isShowAddMusicDialog = ref(false)
 const isShowInsertMusicDialog = ref(false)
+const isShowAuditMusicDialog = ref(false)
 const auditedList = ref<AuditedMusicData[]>([])
 const roleName = computed(() => {
   if (!userInfo.value) return ''
   if (userInfo.value.roleId === 0) return '系統管理員'
-  if (userInfo.value.roleId === 1) return 'DJ'
+  if (userInfo.value.roleId === 1) return '我是DJ'
   if (userInfo.value.roleId === 2) return '一般使用者'
   if (userInfo.value.roleId === 3) return '訪客'
   return ''
@@ -46,10 +47,16 @@ setTimeout(() => {
 }, 1000);
 
 const musicList = ref<MusicData[]>([])
+const insertList = ref<MusicData[]>([]);
 
 wsWrapper.on('update-playlist', (data) => {
   console.log('update-playlist');
   musicList.value = data
+})
+
+wsWrapper.on('update-inserted-list', (data) => {
+  console.log('update-inserted-list');
+  insertList.value = data
 })
 
 // only for dj
@@ -87,13 +94,24 @@ function showHistory() {
       </div>
     </n-layout-header>
     <div class="p-8 flex flex-1">
-      <div class=" w-3/5 pr-8 h-full">
-        <n-space vertical size="large">
-          <n-card class="p-4">
-            <MusicCard :item="music" v-for="music in musicList" :key="music.name"/>
-          </n-card>
-        </n-space>
-      </div>
+      <section class="w-3/5 pr-8 h-full">
+        <div class=" mb-4">
+          <h2 class=" text-xl mb-2 text-white">Music</h2>
+          <n-space vertical size="large">
+            <n-card class="p-4">
+              <MusicCard :item="music" v-for="music in musicList" :key="music.name"/>
+            </n-card>
+          </n-space>
+        </div>
+        <div class="">
+          <h2 class=" text-xl mb-2 text-white">Insert</h2>
+          <n-space vertical size="large">
+            <n-card class="p-4">
+              <MusicCard :item="music" v-for="music in insertList" :key="music._id"/>
+            </n-card>
+          </n-space>
+        </div>
+      </section>
       <div class="flex-1">
         <n-space vertical :size="[16, 24]">
           <n-card>
@@ -102,13 +120,23 @@ function showHistory() {
           <n-button @click="(isShowAddMusicDialog = true)" class="w-full py-8">
             增加音樂
           </n-button>
-          <n-button @click="(isShowInsertMusicDialog = true)" class="w-full py-8 relative">
-            <div 
+          <n-button
+            @click="(isShowInsertMusicDialog = true)" 
+            class="w-full py-8 relative"
+          >
+            插播音樂申請
+          </n-button>
+          <n-button
+            v-if="userInfo?.roleId === 1"
+            class="w-full py-8 relative"
+            @click="isShowAuditMusicDialog = true"
+          >
+            <div
               v-if="auditedList?.length"
               class=" absolute -top-1 -left-1 bg-red-700 w-6 h-6 rounded-full flex items-center justify-center">
               {{ auditedList?.length }}
             </div>
-            插播音樂申請
+            審核插播音樂
           </n-button>
           <n-button @click="showHistory" class="w-full py-8">
             查看點播歷史紀錄
@@ -124,5 +152,9 @@ function showHistory() {
   <SearchMusicDialog 
     title="Insert Music" v-model:isShow="isShowInsertMusicDialog"
     @addMusic="applyToInsertMusic"
+  />
+  <AuditMusicDialog 
+    v-model:isShow="isShowAuditMusicDialog"
+    :auditedList="auditedList"
   />
 </template>

@@ -1,6 +1,8 @@
+let eventList: Array<{ eventName: string, callback: (data: any) => void }> = [];
+let ws: WebSocket;
+
 export function useWs(url = 'ws://localhost:3000') {
-  const eventList: Array<{ eventName: string, callback: (data: any) => void }> = [];
-  const ws = new WebSocket(url);
+  ws ??= new WebSocket(url);
 
   ws.onopen = () => {
     console.log('ws open connection');
@@ -12,7 +14,7 @@ export function useWs(url = 'ws://localhost:3000') {
 
   function send(eventName: 'join-channel', data: JoinChannelEventData): void;
   function send(eventName: 'add-music', data: AddMusicEventData): void;
-  function send(eventName: 'insert-music', data: AddMusicEventData): void;
+  function send(eventName: 'insert-music', data: InsertMusicEventData): void;
   function send(eventName: 'apply-to-insert-music', data: AddMusicEventData): void;
   function send(eventName: WsEvent, data: EventData) {
     ws.send(JSON.stringify({
@@ -34,6 +36,7 @@ export function useWs(url = 'ws://localhost:3000') {
   }
 
   function on(eventName: 'update-playlist', callback: (data: UpdatePlayListEventData) => void): any;
+  function on(eventName: 'update-inserted-list', callback: (data: UpdatePlayListEventData) => void): any;
   function on(eventName: 'update-audited-list', callback: (data: AuditedMusicData[]) => void): any;
   function on(eventName: WsEvent, callback: (data: EventData) => void): any {
     eventList.push({

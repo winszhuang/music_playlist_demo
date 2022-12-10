@@ -9,6 +9,7 @@ type WsEvent =
   | 'apply-to-insert-music'
   | 'insert-music'
   | 'update-playlist'
+  | 'update-inserted-list'
   | 'update-audited-list'
 
 interface JoinChannelEventData {
@@ -19,11 +20,16 @@ interface AddMusicEventData {
   musicId: string
 }
 
+interface InsertMusicEventData {
+  _id: string
+}
+
 type UpdatePlayListEventData = MusicData[]
 
 type EventData = 
   | JoinChannelEventData
   | AddMusicEventData
+  | InsertMusicEventData
   | UpdatePlayListEventData
   | AuditedMusicData[]
 
