@@ -22,7 +22,7 @@ import { storeToRefs } from 'pinia';
 
 const userStore = useUserStore()
 const { userInfo } = storeToRefs(userStore)
-const wsWrapper = useWs();
+const wsWrapper = useWs<WsEventOptions>();
 const route = useRoute();
 const isShowAddMusicDialog = ref(false)
 const isShowInsertMusicDialog = ref(false)

@@ -1,16 +1,12 @@
-type UseWs = () => { 
-  send: (eventName: 'join-channel', data: JoinChannelEventData) => void;
-  send: (eventName: 'add-music', data: AddMusicEventData) => void;
+type WsEventOptions = {
+  'join-channel': JoinChannelEventData,
+  'add-music': AddMusicEventData,
+  'apply-to-insert-music': AddMusicEventData,
+  'insert-music': InsertMusicEventData,
+  'update-playlist': UpdatePlayListEventData,
+  'update-inserted-list': UpdatePlayListEventData,
+  'update-audited-list': AuditedMusicData[]
 }
-
-type WsEvent = 
-  | 'join-channel'
-  | 'add-music'
-  | 'apply-to-insert-music'
-  | 'insert-music'
-  | 'update-playlist'
-  | 'update-inserted-list'
-  | 'update-audited-list'
 
 interface JoinChannelEventData {
   token: string
@@ -25,15 +21,3 @@ interface InsertMusicEventData {
 }
 
 type UpdatePlayListEventData = MusicData[]
-
-type EventData = 
-  | JoinChannelEventData
-  | AddMusicEventData
-  | InsertMusicEventData
-  | UpdatePlayListEventData
-  | AuditedMusicData[]
-
-interface WsEventData<T> {
-  event: WsEvent,
-  data: T
-}

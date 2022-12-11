@@ -10,7 +10,7 @@ import {
 import { useChannelStore } from '../store/channel.store';
 import { useWs } from '../hooks/useWs';
 
-const wsWrapper = useWs();
+const wsWrapper = useWs<WsEventOptions>();
 const channelStore = useChannelStore()
 
 channelStore.fetchChannelList()
