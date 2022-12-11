@@ -25,7 +25,7 @@ const emit = defineEmits(['update:isShow', 'insertMusic']);
 const isShow = useVModel(props, 'isShow', emit)
 
 function confirm(id: string) {
-  wsWrapper.send('insert-music', { _id: id })
+  wsWrapper.send('insert-music', [{ _id: id, cancel: false }])
 }
 
 

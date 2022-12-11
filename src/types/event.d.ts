@@ -21,8 +21,9 @@ interface AddMusicEventData {
   musicId: string
 }
 
-interface InsertMusicEventData {
-  _id: string
-}
+type InsertMusicEventData = Array<{
+  _id: string,
+  cancel: boolean
+}>
 
 type UpdatePlayListEventData = MusicData[]
