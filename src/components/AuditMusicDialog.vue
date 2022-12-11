@@ -28,24 +28,13 @@ function confirm(id: string) {
   wsWrapper.send('insert-music', [{ _id: id, cancel: false }])
 }
 
+function reject(id: string) {
+  wsWrapper.send('insert-music', [{ _id: id, cancel: true }])
+}
 
-
-// const inputValue = ref('')
-// const canSubmit = ref(true)
-// const musicList = ref<MusicData[]>([])
-// const musicNameList = computed(() => musicList.value.map((item) => item.name))
-// const debounceFn = useDebounceFn(async (text: string) => {
-//   musicList.value = (await searchMusic(text)).data
-//   console.log(musicList.value);
-// })
-
-// watch(inputValue, debounceFn)
-
-// function submit() {
-//   const currentMusic = musicList.value.find(item => item.name === inputValue.value)
-//   emit('addMusic', currentMusic?.musicId)
-//   isShow.value = false
-// }
+function confirmAll() {
+  wsWrapper.send('insert-music', props.auditedList.map(item => ({ _id: item._id, cancel: false })))
+}
 
 </script>
 
@@ -67,10 +56,12 @@ function confirm(id: string) {
                 <n-button>Prefix</n-button>
               </template> -->
               <template #suffix>
-                <n-button @click="confirm(item._id)">審核</n-button>
+                <div class="flex space-x-3">
+                  <n-button @click="confirm(item._id)">審核</n-button>
+                  <n-button @click="reject(item._id)">拒絕</n-button>
+                </div>
               </template>
               <template #footer>
-                fff
               </template>
               <n-thing 
                 :title="item.name"
@@ -85,6 +76,11 @@ function confirm(id: string) {
               </n-thing>
             </n-list-item>
           </n-list>
+        </div>
+        <div class="mt-4 text-center">
+          <n-button @click="confirmAll">
+            一件通過
+          </n-button>
         </div>
       </n-dialog>
     </div>
