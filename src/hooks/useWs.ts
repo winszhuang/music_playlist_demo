@@ -1,7 +1,10 @@
 let eventList: Array<{ eventName: string, callback: (data: any) => void }> = [];
 let ws: WebSocket;
 
-type EventOptions = Record<string, any>;
+type EventOptions = {
+  on: Record<string, any>,
+  send: Record<string, any>,
+};
 
 export function useWs<K extends EventOptions>(url = 'ws://localhost:3000') {
   ws ??= new WebSocket(url);
@@ -18,7 +21,7 @@ export function useWs<K extends EventOptions>(url = 'ws://localhost:3000') {
     }
   }
 
-  function on<T extends keyof K>(eventName: T, callback: (data: K[T]) => void) {
+  function on<T extends keyof K['on']>(eventName: T, callback: (data: K['on'][T]) => void) {
     eventList.push({
       eventName: eventName as string,
       callback
@@ -33,7 +36,7 @@ export function useWs<K extends EventOptions>(url = 'ws://localhost:3000') {
     ws.onclose = () => callback();
   }
 
-  function send<T extends keyof K>(eventName: T, data: K[T]) {
+  function send<T extends keyof K['send']>(eventName: T, data: K['send'][T]) {
     ws.send(JSON.stringify({
       event: eventName,
       data

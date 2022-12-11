@@ -1,11 +1,16 @@
+/** websocket事件，on表示接收，send表示寄送 */
 type WsEventOptions = {
-  'join-channel': JoinChannelEventData,
-  'add-music': AddMusicEventData,
-  'apply-to-insert-music': AddMusicEventData,
-  'insert-music': InsertMusicEventData,
-  'update-playlist': UpdatePlayListEventData,
-  'update-inserted-list': UpdatePlayListEventData,
-  'update-audited-list': AuditedMusicData[]
+  on: {
+    'update-playlist': UpdatePlayListEventData,
+    'update-inserted-list': UpdatePlayListEventData,
+    'update-audited-list': AuditedMusicData[]
+  },
+  send: {
+    'join-channel': JoinChannelEventData,
+    'add-music': AddMusicEventData,
+    'apply-to-insert-music': AddMusicEventData,
+    'insert-music': InsertMusicEventData,
+  }
 }
 
 interface JoinChannelEventData {
