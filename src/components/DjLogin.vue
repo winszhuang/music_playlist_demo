@@ -79,7 +79,7 @@ async function handleDjSubmit (e: MouseEvent) {
 
     const res = (await djJoinChannel(data)).data
     localStorage.setItem('token', res.token)
-    console.log(data.channelId)
+    localStorage.setItem('channel', data.channelId)
     router.push(`/channel/${data.channelId}`)
   } catch (error) {
     console.log((error as Error).message)

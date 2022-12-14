@@ -9,22 +9,25 @@ import {
 } from 'naive-ui'
 import { useChannelStore } from '../store/channel.store';
 import { useWs } from '../hooks/useWs';
+import { computed } from 'vue';
 
-const wsWrapper = useWs<WsEventOptions>();
 const channelStore = useChannelStore()
+const canGoToChannelDirectly = computed(() => {
+  const token = localStorage.getItem('token')
+  return !!token
+})
 
 channelStore.fetchChannelList()
 
-function testForAddMusicWithoutToken() {
-  console.log('123');
-  wsWrapper.send('add-music', {
-    musicId: 'IAuRoAUV19o'
-  })
-}
 </script>
 
 <template>
-  <n-card>
+  <div v-if="canGoToChannelDirectly" class=" p-5">
+    <n-button>
+      進入之前的頻道
+    </n-button>
+  </div>
+  <n-card v-else>
     <n-tabs
       class="card-tabs"
       default-value="signin"
@@ -43,7 +46,4 @@ function testForAddMusicWithoutToken() {
       </n-tab-pane>
     </n-tabs>
   </n-card>
-  <n-button @click="testForAddMusicWithoutToken">
-    測試
-  </n-button>
 </template>
