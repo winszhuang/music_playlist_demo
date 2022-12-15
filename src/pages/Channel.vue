@@ -83,7 +83,7 @@ watch(() => musicList.value?.[0], (data, prev) => {
       : null
     console.log(`準備更新的音樂為${musicList.value?.[1]?.name}`);
     wsWrapper.send('update-current-music', nextMusic)
-  }, 30000)
+  }, 120000)
 })
 
 
@@ -132,7 +132,11 @@ function handlePlay(id: string) {
           <h2 class=" text-xl mb-2 text-white">Music</h2>
           <n-space vertical size="large">
             <n-card class="p-4">
-              <MusicCard :item="music" v-for="music in musicList" :key="music.name"/>
+              <MusicCard 
+                :item="music" v-for="(music, index) in musicList" 
+                :key="music.name"
+                :index="index"
+              />
             </n-card>
           </n-space>
         </div>
