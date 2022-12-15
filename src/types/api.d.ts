@@ -21,6 +21,13 @@ interface GuestJoinChannelDto {
   channelId: string;
 }
 
+interface Profile {
+  id: string;
+  channelId: string;
+  iat: number;
+  exp: number;
+}
+
 type SearchMusicListOutput = MusicData[]
 
 interface UserInfo {

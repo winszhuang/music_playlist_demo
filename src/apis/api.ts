@@ -44,3 +44,8 @@ export async function searchMusic(queryString: string) {
 export async function getMe() {
   return api.get('/users/me')
 }
+
+
+export async function profile(): Promise<AxiosResponse<Profile>> {
+  return api.get('/auth/profile')
+}

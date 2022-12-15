@@ -10,11 +10,16 @@ type WsEventOptions = {
     'add-music': AddMusicEventData,
     'apply-to-insert-music': AddMusicEventData,
     'insert-music': InsertMusicEventData,
+    'update-current-music': UpdateCurrentMusicEventData | null
   }
 }
 
 interface JoinChannelEventData {
   token: string
+}
+
+interface UpdateCurrentMusicEventData {
+  _id: string;
 }
 
 interface AddMusicEventData {
@@ -26,4 +31,4 @@ type InsertMusicEventData = Array<{
   cancel: boolean
 }>
 
-type UpdatePlayListEventData = MusicData[]
+type UpdatePlayListEventData = MusicDataDetail[]

@@ -10,20 +10,33 @@ import {
 import { useChannelStore } from '../store/channel.store';
 import { useWs } from '../hooks/useWs';
 import { computed } from 'vue';
+import { useUserStore } from '../store/user.store';
+import { storeToRefs } from 'pinia';
+import { router } from '../main';
 
 const channelStore = useChannelStore()
+const userStore = useUserStore()
+
+const { profile } = storeToRefs(userStore)
 const canGoToChannelDirectly = computed(() => {
   const token = localStorage.getItem('token')
   return !!token
 })
 
 channelStore.fetchChannelList()
+userStore.fetchProfile()
+
+
+function goChannel() {
+  const channelId = profile.value?.channelId
+  router.push(`/channel/${channelId}`)
+}
 
 </script>
 
 <template>
   <div v-if="canGoToChannelDirectly" class=" p-5">
-    <n-button>
+    <n-button @click="goChannel">
       進入之前的頻道
     </n-button>
   </div>

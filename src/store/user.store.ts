@@ -1,10 +1,11 @@
 import { defineStore } from 'pinia';
 import { readonly, shallowReactive, toRefs } from 'vue';
-import { getMe } from '../apis/api';
+import { getMe, profile } from '../apis/api';
 
 export const useUserStore = defineStore('user', () => {
   const state = shallowReactive({
-    userInfo: null as UserInfo | null
+    userInfo: null as UserInfo | null,
+    profile: null as Profile | null
   })
 
   const fetchUserInfo = async () => {
@@ -15,8 +16,17 @@ export const useUserStore = defineStore('user', () => {
     }
   }
 
+  const fetchProfile = async () => {
+    const data = await profile()
+
+    if (data) {
+      state.profile = data.data
+    }
+  }
+
   return {
     ...toRefs(readonly(state)),
-    fetchUserInfo
+    fetchUserInfo,
+    fetchProfile
   }
 })

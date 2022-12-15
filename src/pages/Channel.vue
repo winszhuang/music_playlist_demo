@@ -12,7 +12,7 @@ import {
   NDialog
 } from 'naive-ui'
 import { useRoute } from 'vue-router';
-import { computed, inject, onMounted, ref } from 'vue';
+import { computed, inject, onMounted, ref, onActivated, watch } from 'vue';
 import { useWs } from '../hooks/useWs';
 import MusicCard from '../components/MusicCard.vue';
 import SearchMusicDialog from '../components/SearchMusicDialog.vue';
@@ -46,18 +46,46 @@ setTimeout(() => {
   })
 }, 1000);
 
-const musicList = ref<MusicData[]>([])
-const insertList = ref<MusicData[]>([]);
+onActivated(() => {
+  setTimeout(() => {
+    const token = localStorage.getItem('token') || '';
+    wsWrapper.send('join-channel', {
+      token
+    })
+  }, 1000);
+})
+
+
+const musicList = ref<MusicDataDetail[]>([])
+const currentPlay = ref<{
+  _id: string;
+  musicId: string;
+}>({})
 
 wsWrapper.on('update-playlist', (data) => {
   console.log('update-playlist');
   musicList.value = data
 })
 
-wsWrapper.on('update-inserted-list', (data) => {
-  console.log('update-inserted-list');
-  insertList.value = data
+watch(() => musicList.value?.[0], (data, prev) => {
+  if (!data) return
+  if (prev && data._id === prev._id) return
+
+  console.log('123');
+
+  // 假設音樂撥5秒
+  setTimeout(() => {
+    currentPlay.value._id = data._id
+    currentPlay.value.musicId = data.musicId
+
+    const nextMusic = musicList.value?.[1]
+      ? { _id: musicList.value[1]._id }
+      : null
+    console.log(`準備更新的音樂為${musicList.value?.[1]?.name}`);
+    wsWrapper.send('update-current-music', nextMusic)
+  }, 30000)
 })
+
 
 // only for dj
 wsWrapper.on('update-audited-list', (data) => {
@@ -76,6 +104,11 @@ function applyToInsertMusic(musicId: string) {
 
 function showHistory() {
   console.log('showHistory');
+}
+
+function handlePlay(id: string) {
+  console.log(id);
+  // wsWrapper.send('play', _id);
 }
 
 </script>
@@ -100,14 +133,6 @@ function showHistory() {
           <n-space vertical size="large">
             <n-card class="p-4">
               <MusicCard :item="music" v-for="music in musicList" :key="music.name"/>
-            </n-card>
-          </n-space>
-        </div>
-        <div class="">
-          <h2 class=" text-xl mb-2 text-white">Insert</h2>
-          <n-space vertical size="large">
-            <n-card class="p-4">
-              <MusicCard :item="music" v-for="music in insertList" :key="music._id"/>
             </n-card>
           </n-space>
         </div>
@@ -143,6 +168,9 @@ function showHistory() {
           </n-button>
         </n-space>
       </div>
+    </div>
+    <div>
+      123
     </div>
   </div>
   <SearchMusicDialog 
