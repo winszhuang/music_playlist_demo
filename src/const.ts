@@ -2,87 +2,108 @@ import { InjectionKey } from 'vue';
 
 export const fakeMusicList = [
   {
-      "name": "米津玄師 Kenshi Yonezu - KICKBACK",
-      "author": "Kenshi Yonezu  米津玄師",
-      "musicId": "M2cckDmNLMI",
-      "thumbnail": "https://i.ytimg.com/vi/M2cckDmNLMI/mqdefault.jpg",
-      "duration": "PT3M48S"
+    "name": "米津玄師 Kenshi Yonezu - KICKBACK",
+    "author": "Kenshi Yonezu  米津玄師",
+    "musicId": "M2cckDmNLMI",
+    "thumbnail": "https://i.ytimg.com/vi/M2cckDmNLMI/mqdefault.jpg",
+    "duration": "PT3M48S"
   },
   {
-      "name": "『チェンソーマン』ノンクレジットオープニング / CHAINSAW MAN  Opening│米津玄師 「KICK BACK」",
-      "author": "MAPPA CHANNEL",
-      "musicId": "dFlDRhvM4L0",
-      "thumbnail": "https://i.ytimg.com/vi/dFlDRhvM4L0/mqdefault.jpg",
-      "duration": "PT1M30S"
+    "name": "NO COPYRIGHT SHORT MUSIC (SOLO RECORD)",
+    "author": "CARLUS SANGMA",
+    "musicId": "Atv-zwhSyFE",
+    "thumbnail": "https://i.ytimg.com/vi/Atv-zwhSyFE/mqdefault.jpg",
+    "duration": "PT39S"
   },
   {
-      "name": "Kenshi Yonezu - KICK BACK（Live with Daiki Tsuneta）\"Chainsaw Man\" OP",
-      "author": "Kenshi Yonezu  米津玄師",
-      "musicId": "HSNWJbkIsmo",
-      "thumbnail": "https://i.ytimg.com/vi/HSNWJbkIsmo/mqdefault.jpg",
-      "duration": "PT3M23S"
+    "name": "Awakening - [Short Cinematic Soundtracks] - 30 seconds Epic Uplifting Music",
+    "author": "Martin Peralta",
+    "musicId": "UN6wWphtRpk",
+    "thumbnail": "https://i.ytimg.com/vi/UN6wWphtRpk/mqdefault.jpg",
+    "duration": "PT32S"
   },
   {
-      "name": "Chainsaw Man - Opening Full『KICK BACK』by Kenshi Yonezu",
-      "author": "AniMelody – Anime Music",
-      "musicId": "4MNbX4MRIFQ",
-      "thumbnail": "https://i.ytimg.com/vi/4MNbX4MRIFQ/mqdefault.jpg",
-      "duration": "PT3M48S"
+    "name": "SHORT EPIC INTRO NO COPYRIGHT INTRO MUSIC",
+    "author": "Jeremusic70 - No Copyright Music",
+    "musicId": "vNDe7JDSccM",
+    "thumbnail": "https://i.ytimg.com/vi/vNDe7JDSccM/mqdefault.jpg",
+    "duration": "PT39S"
   },
   {
-      "name": "WayV 威神V '秘境 (Kick Back)' Dance Practice",
-      "author": "WayV",
-      "musicId": "6K5HXrDpRPc",
-      "thumbnail": "https://i.ytimg.com/vi/6K5HXrDpRPc/mqdefault.jpg",
-      "duration": "PT3M56S"
+    "name": "Cinematic Epic Deep Trailer - Background Music for Trailers and Film",
+    "author": "Empire One Music",
+    "musicId": "fD6VYfy3B2s",
+    "thumbnail": "https://i.ytimg.com/vi/fD6VYfy3B2s/mqdefault.jpg",
+    "duration": "PT40S"
   },
   {
-      "name": "WayV 威神V '秘境 (Kick Back)' MV",
-      "author": "SMTOWN",
-      "musicId": "5h3sIRrQHJE",
-      "thumbnail": "https://i.ytimg.com/vi/5h3sIRrQHJE/mqdefault.jpg",
-      "duration": "PT3M58S"
+    "name": "Cool Motivating Background Music for Sports & Workout Videos",
+    "author": "MorningLightMusic",
+    "musicId": "wt8nzHv9Gn8",
+    "thumbnail": "https://i.ytimg.com/vi/wt8nzHv9Gn8/mqdefault.jpg",
+    "duration": "PT1M35S"
   },
   {
-      "name": "Collab Stage: Team LISA - \"Kick Back\" | Youth With You S3 EP22 | 青春有你3 | iQiyi",
-      "author": "iQIYI 爱奇艺",
-      "musicId": "GAsADTdO1LE",
-      "thumbnail": "https://i.ytimg.com/vi/GAsADTdO1LE/mqdefault.jpg",
-      "duration": "PT4M17S"
+    "name": "BOLD. Promo video",
+    "author": "BOLD. ON AIR",
+    "musicId": "asFa8_2EeVM",
+    "thumbnail": "https://i.ytimg.com/vi/asFa8_2EeVM/mqdefault.jpg",
+    "duration": "PT38S"
   },
   {
-      "name": "【中日歌詞】米津玄師  - 『Kick Back』【鏈鋸人/电锯人OP 主題歌】(中字)",
-      "author": "YHere가사 ♪",
-      "musicId": "KFU5gM084GY",
-      "thumbnail": "https://i.ytimg.com/vi/KFU5gM084GY/mqdefault.jpg",
-      "duration": "PT3M14S"
+    "name": "Calming relaxing music 30 seconds|",
+    "author": "Srevoleak",
+    "musicId": "XwCad_n5HLY",
+    "thumbnail": "https://i.ytimg.com/vi/XwCad_n5HLY/mqdefault.jpg",
+    "duration": "PT31S"
   },
   {
-      "name": "【米津玄師】KICK BACK的MV到底想表達什麼？鏈鋸人的熱潮正在延燒！",
-      "author": "折木",
-      "musicId": "_lvRGkdHDgs",
-      "thumbnail": "https://i.ytimg.com/vi/_lvRGkdHDgs/mqdefault.jpg",
-      "duration": "PT5M13S"
+    "name": "Uplifting Forward Thinking 30-seconds sound | youtube intro -outro sounds | sound effects [HD]",
+    "author": "Free Sound FX",
+    "musicId": "wVrC-XQ9Crg",
+    "thumbnail": "https://i.ytimg.com/vi/wVrC-XQ9Crg/mqdefault.jpg",
+    "duration": "PT31S"
   },
   {
-      "name": "KICK BACK -ANIME edit",
-      "author": "Kenshi Yonezu - Topic",
-      "musicId": "Hcq9RRxQErQ",
-      "thumbnail": "https://i.ytimg.com/vi/Hcq9RRxQErQ/mqdefault.jpg",
-      "duration": "PT1M28S"
+    "name": "水曜日のカンパネラ『エジソン』",
+    "author": "水曜日のカンパネラ",
+    "musicId": "8tOIjOPZ5sA",
+    "thumbnail": "https://i.ytimg.com/vi/8tOIjOPZ5sA/mqdefault.jpg",
+    "duration": "PT3M56S"
   },
   {
-      "name": "【中日羅歌詞】『KICK BACK』 /米津玄師｜動畫「鏈鋸人」主題曲｜動画「チェンソーマン」主題歌 ｜『Chainsaw Man 』OP/ Kenshi Yonezu",
-      "author": "れん",
-      "musicId": "qenW6tj0pcI",
-      "thumbnail": "https://i.ytimg.com/vi/qenW6tj0pcI/mqdefault.jpg",
-      "duration": "PT3M14S"
+    "name": "Is It Not Enough",
+    "author": "WeiBird - Topic",
+    "musicId": "tG4pFPk0dhI",
+    "thumbnail": "https://i.ytimg.com/vi/tG4pFPk0dhI/mqdefault.jpg",
+    "duration": "PT2M51S"
   },
   {
-      "name": "[릴레이댄스] WayV(웨이션브이) - 秘境 (Kick Back) (4K)",
-      "author": "M2",
-      "musicId": "Dv_94Disjvs",
-      "thumbnail": "https://i.ytimg.com/vi/Dv_94Disjvs/mqdefault.jpg",
-      "duration": "PT5M21S"
+    "name": "Imagine Dragons - Bones (Official Music Video)",
+    "author": "ImagineDragonsVEVO",
+    "musicId": "TO-_3tck2tg",
+    "thumbnail": "https://i.ytimg.com/vi/TO-_3tck2tg/mqdefault.jpg",
+    "duration": "PT2M46S"
+  },
+  {
+    "name": "The Kid LAROI, Justin Bieber - Stay (Lyrics)",
+    "author": "7clouds",
+    "musicId": "yWHrYNP6j4k",
+    "thumbnail": "https://i.ytimg.com/vi/yWHrYNP6j4k/mqdefault.jpg",
+    "duration": "PT2M20S"
+  },
+  {
+    "name": "九九 Sophie Chen -【藍色天空】Blue Sky | Official MV",
+    "author": "SKRpresents 陶山音樂",
+    "musicId": "_Mw-fI-2zGI",
+    "thumbnail": "https://i.ytimg.com/vi/_Mw-fI-2zGI/mqdefault.jpg",
+    "duration": "PT4M15S"
+  },
+  {
+    "name": "【#オッドタクシー】ノンクレジットOP「ODDTAXI」【スカートとPUNPEE】",
+    "author": "オッドタクシーOfficial",
+    "musicId": "jX-Ry1VxeDQ",
+    "thumbnail": "https://i.ytimg.com/vi/jX-Ry1VxeDQ/mqdefault.jpg",
+    "duration": "PT1M31S"
   }
 ]
