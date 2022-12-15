@@ -19,6 +19,7 @@ import SearchMusicDialog from '../components/SearchMusicDialog.vue';
 import AuditMusicDialog from '../components/AuditMusicDialog.vue';
 import { useUserStore } from '../store/user.store';
 import { storeToRefs } from 'pinia';
+import YoutubePlayer from '../components/YoutubePlayer.vue'
 
 const userStore = useUserStore()
 const { userInfo } = storeToRefs(userStore)
@@ -57,6 +58,7 @@ onActivated(() => {
 
 
 const musicList = ref<MusicDataDetail[]>([])
+const currentPlayId = computed(() => musicList.value?.[0]?.musicId || '')
 const currentPlay = ref<{
   _id: string;
   musicId: string;
@@ -75,8 +77,8 @@ watch(() => musicList.value?.[0], (data, prev) => {
 
   // 假設音樂撥5秒
   setTimeout(() => {
-    currentPlay.value._id = data._id
-    currentPlay.value.musicId = data.musicId
+    // currentPlay.value._id = data._id
+    // currentPlay.value.musicId = data.musicId
 
     const nextMusic = musicList.value?.[1]
       ? { _id: musicList.value[1]._id }
@@ -146,6 +148,7 @@ function handlePlay(id: string) {
           <n-card>
             頻道名稱
           </n-card>
+          {{ musicList }}
           <n-button @click="(isShowAddMusicDialog = true)" class="w-full py-8">
             增加音樂
           </n-button>
@@ -174,7 +177,7 @@ function handlePlay(id: string) {
       </div>
     </div>
     <div>
-      123
+      <YoutubePlayer :src="`https://www.youtube.com/watch?v=${currentPlayId}`"/>
     </div>
   </div>
   <SearchMusicDialog 
