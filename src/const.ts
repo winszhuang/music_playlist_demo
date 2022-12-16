@@ -2,11 +2,11 @@ import { InjectionKey } from 'vue';
 
 export const fakeMusicList = [
   {
-    "name": "米津玄師 Kenshi Yonezu - KICKBACK",
-    "author": "Kenshi Yonezu  米津玄師",
-    "musicId": "M2cckDmNLMI",
-    "thumbnail": "https://i.ytimg.com/vi/M2cckDmNLMI/mqdefault.jpg",
-    "duration": "PT3M48S"
+    "name": "『チェンソーマン』ノンクレジットオープニング / CHAINSAW MAN  Opening│米津玄師 「KICK BACK」",
+    "author": "MAPPA CHANNEL",
+    "musicId": "dFlDRhvM4L0",
+    "thumbnail": "https://i.ytimg.com/vi/dFlDRhvM4L0/mqdefault.jpg",
+    "duration": "PT1M30S"
   },
   {
     "name": "NO COPYRIGHT SHORT MUSIC (SOLO RECORD)",
