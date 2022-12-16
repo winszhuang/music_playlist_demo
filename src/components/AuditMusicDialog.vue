@@ -8,7 +8,8 @@ import {
   NListItem,
   NThing,
   NAvatar,
-  NImage
+  NImage,
+  NCheckbox
 } from 'naive-ui';
 import { useDebounceFn, useVModel } from '@vueuse/core'
 import { searchMusic } from '../apis/api';
@@ -21,19 +22,46 @@ const props = defineProps<{
   auditedList: AuditedMusicData[]
 }>();
 
+const toTopIdsMap: Record<string, boolean | null> = {};
+
 const emit = defineEmits(['update:isShow', 'insertMusic']);
 const isShow = useVModel(props, 'isShow', emit)
 
 function confirm(id: string) {
-  wsWrapper.send('insert-music', [{ _id: id, cancel: false }])
+  const data = [
+    {
+      _id: id,
+      cancel: false,
+      top: !!toTopIdsMap[id]
+    }
+  ]
+  sendInsertMusic(data)
 }
 
 function reject(id: string) {
-  wsWrapper.send('insert-music', [{ _id: id, cancel: true }])
+  const data = [
+    {
+      _id: id,
+      cancel: true,
+      top: !!toTopIdsMap[id]
+    }
+  ]
+  sendInsertMusic(data)
 }
 
 function confirmAll() {
-  wsWrapper.send('insert-music', props.auditedList.map(item => ({ _id: item._id, cancel: false })))
+  const data = props.auditedList.map(item => {
+    return { 
+      _id: item._id, 
+      cancel: false,
+      top: !!toTopIdsMap[item._id]
+    }
+  })
+  sendInsertMusic(data)
+}
+
+function sendInsertMusic(data: any) {
+  wsWrapper.send('insert-music', data)
 }
 
 </script>
@@ -45,6 +73,7 @@ function confirmAll() {
         <h3 class=" text-lg font-bold mb-4">
           申請列表
         </h3>
+
         <!-- :status="" -->
         <div class="mt-4">
           <n-list bordered>
@@ -59,6 +88,11 @@ function confirmAll() {
                 <div class="flex space-x-3">
                   <n-button @click="confirm(item._id)">審核</n-button>
                   <n-button @click="reject(item._id)">拒絕</n-button>
+                  <n-checkbox 
+                    size="large" 
+                    label="優先" 
+                    @update:checked="(isEnable) => toTopIdsMap[item._id] = isEnable"
+                  />
                 </div>
               </template>
               <template #footer>
