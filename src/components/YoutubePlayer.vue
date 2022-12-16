@@ -43,6 +43,12 @@ const initPlayer = () => {
       playsinline: 1,
       rel: 0
     });
+
+    player.on('stateChange', (e) => {
+      if (e.data === 0) emit("ended");
+      if (e.data === 1) emit("play");
+      if (e.data === 2) emit("pause");
+    })
   } catch (error) {
     console.log(error);
   }

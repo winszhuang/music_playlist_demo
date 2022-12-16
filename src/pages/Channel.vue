@@ -69,24 +69,13 @@ wsWrapper.on('update-playlist', (data) => {
   musicList.value = data
 })
 
-watch(() => musicList.value?.[0], (data, prev) => {
-  if (!data) return
-  if (prev && data._id === prev._id) return
-
-  console.log('123');
-
-  // 假設音樂撥5秒
-  setTimeout(() => {
-    // currentPlay.value._id = data._id
-    // currentPlay.value.musicId = data.musicId
-
-    const nextMusic = musicList.value?.[1]
-      ? { _id: musicList.value[1]._id }
-      : null
-    console.log(`準備更新的音樂為${musicList.value?.[1]?.name}`);
-    wsWrapper.send('update-current-music', nextMusic)
-  }, 120000)
-})
+function endMusic() {
+  const nextMusic = musicList.value?.[1]
+    ? { _id: musicList.value[1]._id }
+    : null
+  console.log(`準備更新的音樂為${musicList.value?.[1]?.name}`);
+  wsWrapper.send('update-current-music', nextMusic)
+}
 
 
 // only for dj
@@ -148,7 +137,6 @@ function handlePlay(id: string) {
           <n-card>
             頻道名稱
           </n-card>
-          {{ musicList }}
           <n-button @click="(isShowAddMusicDialog = true)" class="w-full py-8">
             增加音樂
           </n-button>
@@ -173,11 +161,12 @@ function handlePlay(id: string) {
           <n-button @click="showHistory" class="w-full py-8">
             查看點播歷史紀錄
           </n-button>
+          <!-- {{ musicList }} -->
         </n-space>
       </div>
     </div>
     <div>
-      <YoutubePlayer :src="`https://www.youtube.com/watch?v=${currentPlayId}`"/>
+      <YoutubePlayer :src="`https://www.youtube.com/watch?v=${currentPlayId}`" @ended="endMusic"/>
     </div>
   </div>
   <SearchMusicDialog 
