@@ -13,7 +13,7 @@ const props = defineProps({
   height: { type: Number, default: 0 }
 });
 
-const emit = defineEmits(["ended", "play", "pause"]);
+const emit = defineEmits(["ended", "play", "pause", "buffering"]);
 
 onMounted(() => {
   initPlayer();
@@ -45,9 +45,11 @@ const initPlayer = () => {
     });
 
     player.on('stateChange', (e) => {
+      console.log(e);
       if (e.data === 0) emit("ended");
       if (e.data === 1) emit("play");
       if (e.data === 2) emit("pause");
+      if (e.data === 3) emit("buffering");
     })
   } catch (error) {
     console.log(error);

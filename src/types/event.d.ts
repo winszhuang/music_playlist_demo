@@ -8,6 +8,9 @@ type WsEventOptions = {
   send: {
     'join-channel': JoinChannelEventData,
     'add-music': AddMusicEventData,
+    'delete-music': DeleteMusicEventData,
+    'like': AddMusicEventData,
+    'unlike': AddMusicEventData,
     'apply-to-insert-music': AddMusicEventData,
     'insert-music': InsertMusicEventData,
     'update-current-music': UpdateCurrentMusicEventData | null
@@ -24,6 +27,10 @@ interface UpdateCurrentMusicEventData {
 
 interface AddMusicEventData {
   musicId: string
+}
+
+interface DeleteMusicEventData {
+  _id: string;
 }
 
 type InsertMusicEventData = Array<{

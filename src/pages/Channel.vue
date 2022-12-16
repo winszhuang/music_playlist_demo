@@ -77,6 +77,18 @@ function endMusic() {
   wsWrapper.send('update-current-music', nextMusic)
 }
 
+function deleteMusic(id: string) {
+  wsWrapper.send('delete-music', ({ _id: id }))
+}
+
+function likeMusic(musicId: string) {
+  wsWrapper.send('like', { musicId })
+}
+
+function unlikeMusic(musicId: string) {
+  wsWrapper.send('unlike', { musicId })
+}
+
 
 // only for dj
 wsWrapper.on('update-audited-list', (data) => {
@@ -100,6 +112,10 @@ function showHistory() {
 function handlePlay(id: string) {
   console.log(id);
   // wsWrapper.send('play', _id);
+}
+
+function buffering() {
+  console.warn('buffering');
 }
 
 </script>
@@ -127,6 +143,9 @@ function handlePlay(id: string) {
                 :item="music" v-for="(music, index) in musicList" 
                 :key="music.name"
                 :index="index"
+                @delete="deleteMusic(music._id)"
+                @like="likeMusic(music.musicId)"
+                @unlike="unlikeMusic(music.musicId)"
               />
             </n-card>
           </n-space>
@@ -166,7 +185,7 @@ function handlePlay(id: string) {
       </div>
     </div>
     <div>
-      <YoutubePlayer :src="`https://www.youtube.com/watch?v=${currentPlayId}`" @ended="endMusic"/>
+      <YoutubePlayer :src="`https://www.youtube.com/watch?v=${currentPlayId}`" @ended="endMusic" @buffering="buffering"/>
     </div>
   </div>
   <SearchMusicDialog 
