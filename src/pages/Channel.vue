@@ -21,6 +21,7 @@ import { useUserStore } from '../store/user.store';
 import { storeToRefs } from 'pinia';
 import YoutubePlayer from '../components/YoutubePlayer.vue'
 
+const youtubePlayerRef = ref<InstanceType<typeof YoutubePlayer> | null>(null)
 const userStore = useUserStore()
 const { userInfo } = storeToRefs(userStore)
 const wsWrapper = useWs<WsEventOptions>();
@@ -64,10 +65,44 @@ const currentPlay = ref<{
   musicId: string;
 }>({})
 
+const stop = watch(() => musicList.value?.[0], (curr, prev) => {
+  if (userInfo.value?.roleId !== 1) {
+    stop();
+    return;
+  }
+
+  if (!curr) return;
+
+  if (prev?._id && curr._id === prev._id) return;
+
+  handleUpdateCurrentTime()
+})
+
 wsWrapper.on('update-playlist', (data) => {
   console.log('update-playlist');
   musicList.value = data
 })
+
+wsWrapper.on('update-current-time', async (data) => {
+  if (userInfo.value?.roleId === 1) return
+  await youtubePlayerRef.value?.seekTo(Number(data.time))
+})
+
+async function handleUpdateCurrentTime() {
+  
+  const test = await youtubePlayerRef.value?.currentTime()
+  if (test === 0) {
+    console.log('強制播放');
+    await youtubePlayerRef.value?.play()
+  }
+  wsWrapper.send('update-current-time', { time: test ? Number(test) : 0 })
+  setTimeout(() => {
+    handleUpdateCurrentTime()
+  }, 10000)
+  // if (!test) {
+  // }
+  // console.log(test);
+}
 
 function endMusic() {
   const nextMusic = musicList.value?.[1]
@@ -185,7 +220,12 @@ function buffering() {
       </div>
     </div>
     <div>
-      <YoutubePlayer :src="`https://www.youtube.com/watch?v=${currentPlayId}`" @ended="endMusic" @buffering="buffering"/>
+      <YoutubePlayer
+        ref="youtubePlayerRef"
+        :src="`https://www.youtube.com/watch?v=${currentPlayId}`" 
+        @ended="endMusic" 
+        @buffering="buffering"
+      />
     </div>
   </div>
   <SearchMusicDialog 

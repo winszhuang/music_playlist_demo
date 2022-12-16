@@ -3,7 +3,8 @@ type WsEventOptions = {
   on: {
     'update-playlist': UpdatePlayListEventData,
     'update-inserted-list': UpdatePlayListEventData,
-    'update-audited-list': AuditedMusicData[]
+    'update-audited-list': AuditedMusicData[],
+    'update-current-time': UpdateCurrentTimeEventData
   },
   send: {
     'join-channel': JoinChannelEventData,
@@ -13,7 +14,8 @@ type WsEventOptions = {
     'unlike': AddMusicEventData,
     'apply-to-insert-music': AddMusicEventData,
     'insert-music': InsertMusicEventData,
-    'update-current-music': UpdateCurrentMusicEventData | null
+    'update-current-music': UpdateCurrentMusicEventData | null,
+    'update-current-time': UpdateCurrentTimeEventData
   }
 }
 
@@ -23,6 +25,10 @@ interface JoinChannelEventData {
 
 interface UpdateCurrentMusicEventData {
   _id: string;
+}
+
+interface UpdateCurrentTimeEventData {
+  time: string;
 }
 
 interface AddMusicEventData {

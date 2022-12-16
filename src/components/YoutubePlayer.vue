@@ -66,6 +66,8 @@ const loadPlayer = () => {
 
 const play = () => player && player.playVideo();
 const pause = () => player && player.pauseVideo();
+const currentTime = () => player && player.getCurrentTime();
+const seekTo = (time: number) => player && player.seekTo(time, true);
 
 // -1（未开始）0（已结束）1（正在播放）2（已暂停）3（正在缓冲）5（视频已插入）
 let stateChangeListener: any;
@@ -85,7 +87,7 @@ watch(
   () => loadPlayer()
 );
 
-defineExpose({ play, pause });
+defineExpose({ play, pause, currentTime, seekTo });
 </script>
 
 <template>
