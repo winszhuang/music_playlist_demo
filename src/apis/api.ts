@@ -3,7 +3,7 @@ import { fakeMusicList } from '../const'
 
 export const api = axios.create({
   timeout: 60000,
-  baseURL: 'http://localhost:3000'
+  baseURL: import.meta.env.VITE_API_URL
 })
 
 api.interceptors.request.use(
