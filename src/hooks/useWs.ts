@@ -6,8 +6,13 @@ type EventOptions = {
   send: Record<string, any>,
 };
 
-export function useWs<K extends EventOptions>(url = 'ws://localhost:3000') {
-  ws ??= new WebSocket(url);
+export function useWs<K extends EventOptions>(config = { 
+  dev: (import.meta.env.VITE_API_URL as string).replace('http', 'ws'), 
+  prod: (import.meta.env.VITE_API_URL as string).replace('https', 'wss')
+}) {
+  
+  const isDev = import.meta.env.DEV
+  ws ??= new WebSocket(isDev ? config.dev : config.prod);
 
   ws.onmessage = (e) => {
     const source = e.data;
