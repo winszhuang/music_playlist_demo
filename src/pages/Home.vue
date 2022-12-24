@@ -5,11 +5,12 @@ import {
   NTabPane,
   NTabs,
   NCard,
-  NButton
+  NButton,
+  NSpace
 } from 'naive-ui'
 import { useChannelStore } from '../store/channel.store';
 import { useWs } from '../hooks/useWs';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useUserStore } from '../store/user.store';
 import { storeToRefs } from 'pinia';
 import { router } from '../main';
@@ -18,10 +19,7 @@ const channelStore = useChannelStore()
 const userStore = useUserStore()
 
 const { profile } = storeToRefs(userStore)
-const canGoToChannelDirectly = computed(() => {
-  const token = localStorage.getItem('token')
-  return !!token
-})
+const canGoToChannelDirectly = ref<boolean>(localStorage.getItem('token') ? true : false)
 
 channelStore.fetchChannelList()
 userStore.fetchProfile()
@@ -32,13 +30,24 @@ function goChannel() {
   router.push(`/channel/${channelId}`)
 }
 
+function logout() {
+  localStorage.removeItem('channel');
+  localStorage.removeItem('token');
+  canGoToChannelDirectly.value = false
+}
+
 </script>
 
 <template>
   <div v-if="canGoToChannelDirectly" class=" p-5">
-    <n-button @click="goChannel">
-      進入之前的頻道
-    </n-button>
+    <n-space>
+      <n-button @click="goChannel" type="primary">
+        進入之前的頻道
+      </n-button>
+      <n-button @click="logout" type="warning">
+        登出已有的頻道
+      </n-button>
+    </n-space>
   </div>
   <n-card v-else>
     <n-tabs
