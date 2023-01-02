@@ -32,4 +32,5 @@ interface MusicDataDetail extends MusicData {
   __v: number;
   /** 是否為插播 */
   insert?: boolean;
+  canBeReAddedTime?: string;
 }

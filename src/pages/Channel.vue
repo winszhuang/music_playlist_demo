@@ -9,7 +9,8 @@ import {
   NLayoutContent,
   NLayoutHeader,
   NLayoutSider,
-  NDialog
+  NDialog,
+  NPagination
 } from 'naive-ui'
 import { useRoute } from 'vue-router';
 import { computed, inject, onMounted, ref, onActivated, watch } from 'vue';
@@ -17,18 +18,31 @@ import { useWs } from '../hooks/useWs';
 import MusicCard from '../components/MusicCard.vue';
 import SearchMusicDialog from '../components/SearchMusicDialog.vue';
 import AuditMusicDialog from '../components/AuditMusicDialog.vue';
+import HistoryDialog from '../components/HistoryDialog.vue';
 import { useUserStore } from '../store/user.store';
 import { storeToRefs } from 'pinia';
 import YoutubePlayer from '../components/YoutubePlayer.vue'
 
-const youtubePlayerRef = ref<InstanceType<typeof YoutubePlayer> | null>(null)
 const userStore = useUserStore()
 const { userInfo } = storeToRefs(userStore)
 const wsWrapper = useWs<WsEventOptions>();
 const route = useRoute();
+const youtubePlayerRef = ref<InstanceType<typeof YoutubePlayer> | null>(null)
+
 const isShowAddMusicDialog = ref(false)
 const isShowInsertMusicDialog = ref(false)
 const isShowAuditMusicDialog = ref(false)
+const isShowHistoryDialog = ref(false)
+
+const pagination = ref({
+  pageIndex: 1,
+  pageCount: 10
+})
+
+watch(() => pagination.value.pageIndex, (index) => {
+  wsWrapper.send('set-page-index-of-history', { pageIndex: index })
+})
+
 const auditedList = ref<AuditedMusicData[]>([])
 const roleName = computed(() => {
   if (!userInfo.value) return ''
@@ -40,6 +54,28 @@ const roleName = computed(() => {
 })
 
 userStore.fetchUserInfo()
+
+wsWrapper.on('update-playlist', (data) => {
+  console.log('update-playlist');
+  musicList.value = data
+})
+wsWrapper.on('update-history', (data) => {
+  // 不是同一頁不更新
+  if (pagination.value.pageIndex !== data.pageIndex) return;
+  console.log(data);
+  historyList.value = data.list
+  pagination.value.pageCount = data.pageCount
+})
+wsWrapper.on('update-current-time', async (data) => {
+  if (userInfo.value?.roleId === 1) return
+  await youtubePlayerRef.value?.seekTo(Number(data.time))
+})
+// only for dj
+wsWrapper.on('update-audited-list', (data) => {
+  console.log('update-audited-list');
+  console.log(data);
+  auditedList.value = data
+})
 
 setTimeout(() => {
   const token = localStorage.getItem('token') || '';
@@ -59,6 +95,7 @@ onActivated(() => {
 
 
 const musicList = ref<MusicDataDetail[]>([])
+const historyList = ref<MusicDataDetail[]>([])
 const currentPlayId = computed(() => musicList.value?.[0]?.musicId || '')
 const currentPlay = ref<{
   _id: string;
@@ -76,16 +113,6 @@ const stop = watch(() => musicList.value?.[0], (curr, prev) => {
   if (prev?._id && curr._id === prev._id) return;
 
   handleUpdateCurrentTime()
-})
-
-wsWrapper.on('update-playlist', (data) => {
-  console.log('update-playlist');
-  musicList.value = data
-})
-
-wsWrapper.on('update-current-time', async (data) => {
-  if (userInfo.value?.roleId === 1) return
-  await youtubePlayerRef.value?.seekTo(Number(data.time))
 })
 
 async function handleUpdateCurrentTime() {
@@ -124,14 +151,6 @@ function unlikeMusic(musicId: string) {
   wsWrapper.send('unlike', { musicId })
 }
 
-
-// only for dj
-wsWrapper.on('update-audited-list', (data) => {
-  console.log('update-audited-list');
-  console.log(data);
-  auditedList.value = data
-})
-
 function addMusic(musicId: string) {
   wsWrapper.send('add-music', { musicId })
 }
@@ -151,6 +170,14 @@ function handlePlay(id: string) {
 
 function buffering() {
   console.warn('buffering');
+}
+
+function addMusicFromHistory(id: string, musicId: string) {
+  wsWrapper.send('add-music-from-history', { _id: id, musicId })
+}
+
+function likeMusicFromHistory(id: string, musicId: string) {
+  wsWrapper.send('like-music-from-history', { _id: id, musicId })
 }
 
 </script>
@@ -212,7 +239,10 @@ function buffering() {
             </div>
             審核插播音樂
           </n-button>
-          <n-button @click="showHistory" class="w-full py-8">
+          <n-button
+            @click="(isShowHistoryDialog = true)" 
+            class="w-full py-8"
+          >
             查看點播歷史紀錄
           </n-button>
           <!-- {{ musicList }} -->
@@ -240,4 +270,31 @@ function buffering() {
     v-model:isShow="isShowAuditMusicDialog"
     :auditedList="auditedList"
   />
+  <HistoryDialog
+    title="歷史紀錄"
+    v-model:isShow="isShowHistoryDialog"
+    :list="historyList"
+  >
+    <template #suffix="{ item }">
+      <div class="flex space-x-3">
+        <n-button
+          :disabled="!!item.canBeReAddedTime"
+          @click="addMusicFromHistory(item._id, item.musicId)"
+        >
+          {{  item.canBeReAddedTime ? '已加入' : '加入目前歌單'  }}
+        </n-button>
+        <n-button
+          v-if="userInfo?.roleId === 1"
+          @click="likeMusicFromHistory(item._id, item.musicId)">
+          加入常用歌單
+        </n-button>
+      </div>
+    </template>
+    <template #bottom>
+      <n-pagination 
+        v-model:page="pagination.pageIndex" 
+        :page-count="pagination.pageCount" 
+      />
+    </template>
+  </HistoryDialog>
 </template>
