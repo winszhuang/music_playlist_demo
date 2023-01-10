@@ -8,11 +8,13 @@ type EventOptions = {
 
 export function useWs<K extends EventOptions>(config = { 
   dev: (import.meta.env.VITE_API_URL as string).replace('http', 'ws'), 
-  prod: (import.meta.env.VITE_API_URL as string).replace('https', 'wss')
+  prod: 'wss://wave-working-backend.vercel.app:9453/'
+  // prod: (import.meta.env.VITE_API_URL as string).replace('https', 'wss')
 }) {
   
   const isDev = import.meta.env.DEV
   ws ??= new WebSocket(isDev ? config.dev : config.prod);
+  // ws ??= new WebSocket('ws://wave-working-backend-ofsuql9rf-winszhuang.vercel.app:443')
 
   ws.onmessage = (e) => {
     const source = e.data;
