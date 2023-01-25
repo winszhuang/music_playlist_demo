@@ -2,11 +2,11 @@ import { createApp } from 'vue'
 import './style.css'
 import App from './App.vue'
 import { routes } from './routes'
-import { createWebHistory, createRouter } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import { createPinia } from 'pinia'
 
 export const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHashHistory(),
   routes,
 })
 
