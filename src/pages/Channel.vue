@@ -55,6 +55,9 @@ const roleName = computed(() => {
 
 userStore.fetchUserInfo()
 
+wsWrapper.onClose(() => {
+  setTimeout(joinChannel, 1000);
+})
 wsWrapper.on('update-playlist', (data) => {
   console.log('update-playlist');
   musicList.value = data
@@ -77,12 +80,7 @@ wsWrapper.on('update-audited-list', (data) => {
   auditedList.value = data
 })
 
-setTimeout(() => {
-  const token = localStorage.getItem('token') || '';
-  wsWrapper.send('join-channel', {
-    token
-  })
-}, 1000);
+setTimeout(joinChannel, 1000);
 
 onActivated(() => {
   setTimeout(() => {
@@ -92,6 +90,13 @@ onActivated(() => {
     })
   }, 1000);
 })
+
+function joinChannel() {
+  const token = localStorage.getItem('token') || '';
+  wsWrapper.send('join-channel', {
+    token
+  })
+}
 
 
 const musicList = ref<MusicDataDetail[]>([])

@@ -44,10 +44,13 @@ export function useWs<K extends EventOptions>(config = {
     ws.onopen = () => callback();
   }
 
-  ws.onclose = (e) => {
-    console.log(e);
-    // 重連
-    ws = new WebSocket(isDev ? config.dev : config.prod);
+  function onClose(callback = () => console.log('ws close connection')) {
+    ws.onclose = (e) => {
+      console.log(e);
+      // 重連
+      ws = new WebSocket(isDev ? config.dev : config.prod);
+      callback();
+    }
   }
 
   function send<T extends keyof K['send']>(eventName: T, data: K['send'][T]) {
@@ -61,6 +64,7 @@ export function useWs<K extends EventOptions>(config = {
     send,
     on,
     onOpen,
+    onClose,
     ws,
   }
 }
