@@ -40,7 +40,10 @@ export function useWs<K extends EventOptions>(config = {
   }
 
   function onClose(callback = () => console.log('ws close connection')) {
-    ws.onclose = () => callback();
+    ws.onclose = (e) => {
+      console.log(e);
+      callback();
+    }
   }
 
   function send<T extends keyof K['send']>(eventName: T, data: K['send'][T]) {
