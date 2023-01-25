@@ -8,7 +8,7 @@ type EventOptions = {
 
 export function useWs<K extends EventOptions>(config = { 
   dev: (import.meta.env.VITE_API_URL as string).replace('http', 'ws'), 
-  prod: 'wss://wave-working-backend.vercel.app:9453/'
+  prod: 'wss://wave-working-backend.onrender.com'
   // prod: (import.meta.env.VITE_API_URL as string).replace('https', 'wss')
 }) {
   

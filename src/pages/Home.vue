@@ -9,7 +9,6 @@ import {
   NSpace
 } from 'naive-ui'
 import { useChannelStore } from '../store/channel.store';
-import { useWs } from '../hooks/useWs';
 import { computed, ref } from 'vue';
 import { useUserStore } from '../store/user.store';
 import { storeToRefs } from 'pinia';
