@@ -28,6 +28,11 @@ export function useWs<K extends EventOptions>(config = {
     }
   }
 
+  ws.onerror = (e) => {
+    console.log('crash!!');
+    console.log(e);
+  }
+
   function on<T extends keyof K['on']>(eventName: T, callback: (data: K['on'][T]) => void) {
     eventList.push({
       eventName: eventName as string,
