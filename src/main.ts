@@ -4,6 +4,11 @@ import App from './App.vue'
 import { routes } from './routes'
 import { createRouter, createWebHashHistory } from 'vue-router'
 import { createPinia } from 'pinia'
+import { setupWsUrl } from './hooks/useSocketio'
+
+const isDev = import.meta.env.DEV
+
+setupWsUrl(isDev ? 'http://localhost:3000' : 'https://wave-working-backend.onrender.com')
 
 export const router = createRouter({
   history: createWebHashHistory(),
@@ -13,5 +18,6 @@ export const router = createRouter({
 const app = createApp(App)
   .use(router)
   .use(createPinia())
+
 
 app.mount('#app')

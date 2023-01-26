@@ -14,8 +14,9 @@ import {
 import { useDebounceFn, useVModel } from '@vueuse/core'
 import { searchMusic } from '../apis/api';
 import { computed, ref, watch } from 'vue';
-import { useWs } from '../hooks/useWs';
-const wsWrapper = useWs<WsEventOptions>();
+import { useWs } from '../hooks/useSocketio'
+
+const { ws } = useWs<WsEventOptions>();
 
 const props = defineProps<{ 
   isShow: boolean,
