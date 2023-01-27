@@ -179,7 +179,7 @@ function addMusicFromHistory(id: string, musicId: string) {
 }
 
 function likeMusicFromHistory(id: string, musicId: string) {
-  ws.emit('like-music-from-history', { _id: id, musicId })
+  ws.emit('like-music-from-history', { musicId })
 }
 
 </script>
@@ -287,8 +287,10 @@ function likeMusicFromHistory(id: string, musicId: string) {
         </n-button>
         <n-button
           v-if="userInfo?.roleId === 1"
-          @click="likeMusicFromHistory(item._id, item.musicId)">
-          加入常用歌單
+          :disabled="!!item.likes[userInfo._id]"
+          @click="likeMusicFromHistory(item._id, item.musicId)"
+        >
+          {{  item.likes[userInfo?._id] ? '已在常用歌單' : '加入常用歌單' }}
         </n-button>
       </div>
     </template>
