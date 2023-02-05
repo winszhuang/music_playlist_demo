@@ -3,17 +3,10 @@ import {
   NButton,
   NSpace,
   NCard,
-  NList,
-  NListItem,
-  NLayout,
-  NLayoutContent,
   NLayoutHeader,
-  NLayoutSider,
-  NDialog,
   NPagination
 } from 'naive-ui'
-import { useRoute } from 'vue-router';
-import { computed, inject, onMounted, ref, onActivated, watch } from 'vue';
+import { computed, ref, onActivated, watch } from 'vue';
 import { useWs } from '../hooks/useSocketio'
 import MusicCard from '../components/MusicCard.vue';
 import SearchMusicDialog from '../components/SearchMusicDialog.vue';
@@ -26,7 +19,6 @@ import YoutubePlayer from '../components/YoutubePlayer.vue'
 const userStore = useUserStore()
 const { userInfo } = storeToRefs(userStore)
 const { ws } = useWs<WsEventOptions>();
-const route = useRoute();
 const youtubePlayerRef = ref<InstanceType<typeof YoutubePlayer> | null>(null)
 
 const isShowAddMusicDialog = ref(false)
@@ -34,16 +26,10 @@ const isShowInsertMusicDialog = ref(false)
 const isShowAuditMusicDialog = ref(false)
 const isShowHistoryDialog = ref(false)
 
-const pagination = ref({
-  pageIndex: 1,
-  pageCount: 10
-})
-
-watch(() => pagination.value.pageIndex, (index) => {
-  ws.emit('set-page-index-of-history', { pageIndex: index })
-})
-
+const musicList = ref<MusicDataDetail[]>([])
+const historyList = ref<MusicDataDetail[]>([])
 const auditedList = ref<AuditedMusicData[]>([])
+const currentPlayId = computed(() => musicList.value?.[0]?.musicId || '')
 const roleName = computed(() => {
   if (!userInfo.value) return ''
   if (userInfo.value.roleId === 0) return '系統管理員'
@@ -51,6 +37,14 @@ const roleName = computed(() => {
   if (userInfo.value.roleId === 2) return '一般使用者'
   if (userInfo.value.roleId === 3) return '訪客'
   return ''
+})
+const currentPlay = ref<{
+  _id: string;
+  musicId: string;
+}>({})
+const pagination = ref({
+  pageIndex: 1,
+  pageCount: 10
 })
 
 userStore.fetchUserInfo()
@@ -88,21 +82,9 @@ onActivated(() => {
   }, 1000);
 })
 
-function joinChannel() {
-  const token = localStorage.getItem('token') || '';
-  ws.emit('join-channel', {
-    token
-  })
-}
-
-
-const musicList = ref<MusicDataDetail[]>([])
-const historyList = ref<MusicDataDetail[]>([])
-const currentPlayId = computed(() => musicList.value?.[0]?.musicId || '')
-const currentPlay = ref<{
-  _id: string;
-  musicId: string;
-}>({})
+watch(() => pagination.value.pageIndex, (index) => {
+  ws.emit('set-page-index-of-history', { pageIndex: index })
+})
 
 const stop = watch(() => musicList.value?.[0], (curr, prev) => {
   if (userInfo.value?.roleId !== 1) {
@@ -117,8 +99,14 @@ const stop = watch(() => musicList.value?.[0], (curr, prev) => {
   handleUpdateCurrentTime()
 })
 
+function joinChannel() {
+  const token = localStorage.getItem('token') || '';
+  ws.emit('join-channel', {
+    token
+  })
+}
+
 async function handleUpdateCurrentTime() {
-  
   const test = await youtubePlayerRef.value?.currentTime()
   if (test === 0) {
     console.log('強制播放');
@@ -128,9 +116,6 @@ async function handleUpdateCurrentTime() {
   setTimeout(() => {
     handleUpdateCurrentTime()
   }, 10000)
-  // if (!test) {
-  // }
-  // console.log(test);
 }
 
 function endMusic() {
@@ -159,15 +144,6 @@ function addMusic(musicId: string) {
 
 function applyToInsertMusic(musicId: string) {
   ws.emit('apply-to-insert-music', { musicId })
-}
-
-function showHistory() {
-  console.log('showHistory');
-}
-
-function handlePlay(id: string) {
-  console.log(id);
-  // ws.emit('play', _id);
 }
 
 function buffering() {
