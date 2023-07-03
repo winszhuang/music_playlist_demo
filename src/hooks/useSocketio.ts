@@ -23,7 +23,8 @@ export function useWs<K extends EventOptions>() {
   })
 
   ws.on('disconnect', () => {
-    console.log('段線搂');
+    console.log('段線搂，馬上再次重連');
+    ws = io(url)
   })
 
   return {
