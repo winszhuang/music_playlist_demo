@@ -8,7 +8,8 @@ import { setupWsUrl } from './hooks/useSocketio'
 
 const isDev = import.meta.env.DEV
 
-setupWsUrl(isDev ? 'http://localhost:3000' : 'https://wave-working-backend.onrender.com')
+console.log(import.meta.env.VITE_API_URL);
+setupWsUrl(import.meta.env.VITE_API_URL)
 
 export const router = createRouter({
   history: createWebHashHistory(),
