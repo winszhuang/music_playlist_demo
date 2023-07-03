@@ -8,6 +8,7 @@ import { setupWsUrl } from './hooks/useSocketio'
 
 const isDev = import.meta.env.DEV
 
+console.log(isDev);
 console.log(import.meta.env.VITE_API_URL);
 setupWsUrl(import.meta.env.VITE_API_URL)
 
