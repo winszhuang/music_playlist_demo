@@ -18,16 +18,21 @@ export function useWs<K extends EventOptions>() {
     ws = io(url)
   }
 
-  ws.on('connect', () => {
-    console.log('連上瞜');
-  })
+  function onOpen(callback = () => console.log('ws open connection')) {
+    ws.on('connect', () => callback())
+  }
 
-  ws.on('disconnect', () => {
-    console.log('段線搂，馬上再次重連');
-    ws = io(url)
-  })
+  function onClose(callback = () => console.log('ws close connection')) {
+    ws.on('disconnect', () => {
+      console.log('段線搂，馬上再次重連');
+      ws = io(url)
+      callback()
+    })
+  }
 
   return {
-    ws
+    ws,
+    onOpen,
+    onClose
   }
 }

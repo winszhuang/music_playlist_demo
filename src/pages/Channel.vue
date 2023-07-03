@@ -71,7 +71,10 @@ ws.on('update-audited-list', (data) => {
   auditedList.value = data
 })
 
-setTimeout(joinChannel, 1000);
+ws.on('connect', () => {
+  console.log('連上瞜');
+  joinChannel()
+})
 
 onActivated(() => {
   setTimeout(() => {
