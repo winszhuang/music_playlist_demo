@@ -209,7 +209,7 @@ function likeMusicFromHistory(id: string, musicId: string) {
             插播音樂申請
           </n-button>
           <n-button
-            v-if="userInfo?.roleId === 1"
+            v-if="userInfo?.roleId === 1 || userInfo?.roleId === 0"
             class="w-full py-8 relative"
             @click="isShowAuditMusicDialog = true"
           >
